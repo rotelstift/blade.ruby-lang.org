@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  blade:
+    build: .
+    container_name: blade
+    ports:
+      - 3000:3000
+    volumes:
+      - './:/rails'
+    environment:
+      POSTGRES_USER: 'user'
+      POSTGRES_PASSWORD: 'postgres'
+    tty: true
+    stdin_open: true
+    depends_on:
+      - pg
+  pg:
+    image: postgres:latest
+    container_name: postgresql
+    ports:
+      - 5432:5432
+    volumes:
+      - db-store:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: 'user'
+      POSTGRES_PASSWORD: 'postgres'
+volumes:
+  db-store:
