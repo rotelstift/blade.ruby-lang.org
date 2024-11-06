@@ -1,4 +1,5 @@
 require "active_support/core_ext/integer/time"
+require "aws-sdk-s3"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -75,4 +76,11 @@ Rails.application.configure do
   config.action_controller.raise_on_missing_callback_actions = true
 
   config.force_ssl = false
+  Aws.config.update({
+    credentials:
+    (Aws::Credentials.new(
+      Rails.application.credentials.aws.access_key_id,
+      Rails.application.credentials.aws.secret_access_key
+    ))
+  })
 end
